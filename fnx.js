@@ -17,8 +17,18 @@
 	 * buildLiFamilyName('Qi', 'Xian');    // returns 'Li Qi-Xian';
 	 */
 	function partial(fn) {
+		/**
+		 * Remember the n arguments specified after the function to be partially
+		 * applied: these will be the first n arguments used when the returned
+		 * function is executed.
+		 */
 		var partiallyAppliedArguments = slice.call(arguments, 1);
 
+		/**
+		 * This new function will apply the specified function `fn` to the
+		 * combination of the partially applied arguments and any arguments that
+		 * are provided at execution time.
+		 */
 		return function () {
 			var completeArguments = partiallyAppliedArguments.concat(slice.call(arguments));
 			return fn.apply(this, completeArguments);
