@@ -35,7 +35,37 @@
 		};
 	}
 
+	/**
+	 * Set up a pipeline of the specified functions such that the return value
+	 * of one function acts as the argument for the next one. Note that the
+	 * functions are executed in the reverse order in which they are provided as
+	 * arguments which aligns with the mathematical concept of functional
+	 * composition: the composition of functions f1, f2 and f3 is the expression
+	 * f1(f2(f3(x))).
+	 */
+	function compose() {
+		var functions = arguments;
+		var steps = functions.length;
+
+		return function () {
+			var value = arguments;
+			var n = steps;
+
+			/**
+			 * Apply the functions in reverse order, storing the return value
+			 * of each application into an array to be used as the argument for
+			 * the next application.
+			 */
+			while (--n >= 0) {
+				value = [functions[n].apply(this, value)];
+			}
+
+			return value[0];
+		};
+	}
+
 	global.fnx = {
+		compose: compose,
 		partial: partial
 	};
 })(this);
